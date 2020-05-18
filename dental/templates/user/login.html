@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+
+
+{% block content %}
+
+<div class="text-center h1 text-danger">Login</div>
+
+<div class="container">
+    {% from "_formhelpers.html" import render_field %}
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            
+        <form method="post" enctype="multipart/form-data">
+            <div>
+                {{ render_field(form.username, class="form-control", placeholder = "Enter your username") }}
+                {{ render_field(form.password, class="form-control", placeholder = "Enter your password") }}
+            </div>
+            <p><input type=submit value="Login" class="btn btn-info">
+        </form>
+        </div>
+    <div class="col-md-4"></div>
+
+</div>
+
+ </div>
+
+{% endblock %}

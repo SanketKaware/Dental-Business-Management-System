@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+
+
+{% block content %}
+
+<div class="text-center h1 text-danger">Register</div>
+
+<div class="container">
+    {% from "_formhelpers.html" import render_field %}
+        <form method="post" enctype="multipart/form-data">
+        <div>
+            <!-- {{ render_field(form.username) }}
+            {{ render_field(form.email) }}
+            {{ render_field(form.password) }}
+            {{ render_field(form.confirm) }}
+            {{ render_field(form.role_id) }} -->
+
+            {{ render_field(form.username, class="form-control", placeholder = "Enter your username") }}
+            {{ render_field(form.email, class="form-control", placeholder = "Enter your email id") }}
+            {{ render_field(form.password, class="form-control", placeholder = "Enter new password") }}
+            {{ render_field(form.confirm, class="form-control", placeholder = "Repeat your password") }}
+            {{ render_field(form.role_id)}}
+        </div>
+        <p><input type=submit value="Register" class="btn btn-info">
+        </form>
+</div>
+
+{% endblock %}
