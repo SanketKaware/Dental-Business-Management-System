@@ -1,0 +1,81 @@
+Metadata-Version: 2.1
+Name: Flask-Ext
+Version: 0.1
+Summary: Extensions of Flask
+Home-page: https://github.com/zengqiu/flask-ext
+Author: zengqiu
+Author-email: zengqiu@qq.com
+License: MIT
+Platform: any
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Description-Content-Type: text/markdown
+Requires-Dist: Flask
+
+Flask-Ext
+=========
+
+Some extensions of Flask.
+
+Subdomain
+---------
+
+- Configure ``app`` attributes
+
+```
+app.static_url_path = '/static'
+app.static_folder = 'static'
+app.add_url_rule(app.static_url_path + '/<path:filename>',
+                 endpoint='static',
+                 view_func=app.send_static_file)
+```
+
+- Configure ``settings.py``
+
+```
+SERVER_NAME = 'project_name.test:5000'
+SESSION_COOKIE_DOMAIN = "." + SERVER_NAME
+```
+
+- Configure ``views.py``
+
+```
+blueprint = Blueprint('portal', __name__, subdomain='<subdomain>')
+add_subdomain_support(blueprint)
+```
+
+- Configure ``RequireJS`` and ``Layer``
+
+```
+<script>
+    requirejs.config({
+        baseUrl: '{{ '%s%s' | format('http://', config.SERVER_NAME) }}'
+    });
+</script>
+```
+
+```   
+<script>
+    require(['layer'], function(layer){
+        layer.config({
+            path: "{{ '%s%s%s' | format('http://', config.SERVER_NAME, '/static/plugins/layer-3.1.1/') }}"
+        });
+    });
+</script>
+```
+
+* Notice: You can use ``g.subdomain`` to get current subdomain.
+

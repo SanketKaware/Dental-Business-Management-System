@@ -1,25 +1,57 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+    <title>Dental Business - {{title}}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
+</head>
 
-    <title>{{title}}</title>
-  </head>
-  <body>
-  {% block content %}
+<header>
+<!-- Image and text -->
+<!-- navbar start -->
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">
+    <img style="max-width:120px; margin-top: -7px;" src="{{ url_for('static', filename='images/mainlogo.png') }}">
+    Order & Supply Management System
+  </a>
+  <ul class="nav navbar-nav navbar-right">
+    <div style="margin-right: 10px; margin-left: 20px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid">
+    <h5>
+      <!-- Login Session -->
+      {% if session.logged_in %}
+        <a href="/about"> <span class="glyphicon glyphicon-heart"></span> About&nbsp;&nbsp;&nbsp;</a>
+        <a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout&nbsp;&nbsp;&nbsp;</a>
+      {% else %}
+        <!-- Support code(Extra) -->
+        <a href="https://www.google.com"> Support&nbsp;&nbsp;&nbsp;</a>
+        <!-- Log in code -->
+        <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login&nbsp;&nbsp;&nbsp;</a>
+        <!-- Sign out code -->
+        <a href="/register"><span class="glyphicon glyphicon-pencil"></span> Sign up&nbsp;&nbsp;&nbsp;</a>
+      {% endif %}
+    </h5>
+    </div>
+  </ul>
+</nav>
+</header>
 
 
-  {% endblock %}
+<body>
+    <div class="container" style="min-height:100% width:80%">
+        {% include '_messages.html'%}
+        {% block content %}  {% endblock %}
+        <script src="{{ url_for('static', filename='js/jquery-3.4.1.slim.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/popper.min.js')}}" ></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}" ></script>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="{{ url_for('static', filename='js/jquery-3.4.1.slim.min.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/popper.min.js')}}" ></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}" ></script>
-  </body>
+   
+</body>
 </html>
+
