@@ -1,0 +1,81 @@
+{% include "layout.html" %}
+
+{% block body %}
+
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/clinic">Cart</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto"></ul>
+        <form class="form-inline my-2 my-lg-0">
+            <a class="float-right" href="{{url_for('getCart_clinic')}}" tabindex="-1">
+                <h5>Cart ({{session['Shoppingcart']|length}})</h5>
+            </a>
+        </form>
+        </div>
+    </nav>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+        <table class="table table-sm">
+            <thead>
+                <th>Sr</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Discount</th>
+                <th>Subtotal</th>
+                <th>Update</th>
+                <th>Remove</th>
+            </thead>
+            <tbody>
+                {% for key, product in session['Shoppingcart'].items() %}
+                {% set discount = "%0.2f" |format((product.discount/100) * product.price|float) %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{product.name}}</td>
+                    <form action="{{url_for('updatecart_clinic', code=key)}}" method="POST">
+                        <td>
+                            ${{"%.2f"|format(product.price)}}
+                        </td>
+                        <td>
+                            <input type="number" name="quantity" min="1" max="100" value="{{product.quantity}}"> 
+                        </td>
+                        {% if product.discount > 0 %}
+                            <td>{{product.discount}}% &nbsp; is ${{discount}}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        {% set subtotal = product.quantity|int * product.price|float %}
+                        <td>
+                            ${{"%0.2f"|format((subtotal|float) - discount|float)}}
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-sm btn-info">Update</button>
+                        </td>
+                    </form>
+                    <td><a href="{{url_for('deleteitem_clinic', id=key)}}" class="btn btn-sm btn-danger">Remove</a></td>
+                </tr>
+                {% endfor  %}
+
+            </tbody>
+        </table>
+        <table class="table table-sm">
+           <tr>
+                <td> <a href="{{url_for('clinic')}}" class="btn btn-success"> Go back </a> </td>
+                <td width="32%"></td>
+                <td colspan="3"><h5>Tax: ${{tax}}</h5></td>
+                <td colspan="4"><h5>Grand total: ${{grandtotal}}</h5></td>
+                <td> <a href="{{url_for('clearcart_clinic')}}" class="btn btn-danger float-right mr-5"> Clear cart</a> </td>
+           </tr>
+        </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

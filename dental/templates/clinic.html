@@ -1,23 +1,51 @@
 {% extends "layout.html" %}
 
-
-
 {% block content %}
 
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/clinic">Clinic - Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/clinic">Clinic - Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
 
-
-        </ul>
-        </div>
-    </nav>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <a class="float-right" href= "{{url_for('getCart_clinic')}}" tabindex="-1">
+                    <h5>Cart ({{session['Shoppingcart']|length}})</h5>
+                </a>
+            </form>
+            </div>
+        </nav>
 </div>
 
+<div class="container">
+    <h4 class="alert alert-secondary" style="text-align: center; ">Shop Products From Different Labs</h4>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-3 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    {% if product.discout>0 %}
+                    <p style="text-shadow: 1px 1px 2px black; color:red; transform: rotate(0deg); position: absolute; top: 1%; left: 1%;">Discount {{product.discout}}%</p>
+                    {% endif %}
+                    <h5 class="text-center">{{product.name}}</h5>
+                    <p class="text-center">Price ${{product.price}}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{url_for('clinicproduct_details', id=product.id)}}" class="float-left btn btn-sm btn-primary ">Details</a>
+                    <form action="{{url_for('addcart_clinic')}}" method="post">
+                        <input type="hidden" name="product_id" value="{{product.id}}">
+                        <button type="submit" class="btn btn-sm btn-warning float-right">Add cart</button>
+                        <input type="hidden" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

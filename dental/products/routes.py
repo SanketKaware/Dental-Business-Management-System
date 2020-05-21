@@ -122,3 +122,22 @@ def labproduct():
         return redirect(url_for('login', filename='routes.py'))
     products = lab_product.query.all()
     return render_template('products/labproduct.html', title='Lab User', products=products)
+
+# @app.route('/labproduct_details/<int:id>')
+# def labproduct_details(id):
+#     products1 = manufacturer_product.query.get_or_404(id)
+#     return render_template('products/labproduct_details.html', title='Product Details', products=products1)
+
+
+@app.route('/labproduct_details/<int:id>', methods=['GET', 'POST'])
+def labproduct_details(id):
+    products = manufacturer_product.query.filter_by(id=id)
+    print(products)
+    return render_template('products/labproduct_details.html', products=products)
+
+
+@app.route('/clinicproduct_details/<int:id>', methods=['GET', 'POST'])
+def clinicproduct_details(id):
+    products = lab_product.query.filter_by(id=id)
+    print(products)
+    return render_template('products/clinicproduct_details.html', products=products)

@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/clinic">Clinic - Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto"></ul>
+        <form class="form-inline my-2 my-lg-0">
+        <a class="float-right" href= "{{url_for('getCart_clinic')}} " tabindex="-1">
+            <h5>Cart ({{session['Shoppingcart']|length}})</h5>
+        </a>
+        </form>
+      </div>
+  </nav>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-6" id=product.id>
+            <h4>Product Name: {{product.name}}</h4>
+            <hr>
+            <p>Product Price: ${{product.price}}</p>
+            {% if product.discout>0 %}
+                <p>Product Discount: {{product.discout}}%</p>
+            {% endif %}
+            <hr>
+            {% if product.stock>0 %}
+                <p>Product Availability: Yes</p>
+            {% elif product.stock==0 %}
+            <p>Product Availability: No</p>
+            {% endif %}
+            <p>Product Seller: {{product.seller}}</p>
+            <hr>
+            <b>Product Description</b>
+            <p>{{product.description}}</p>
+            <hr>
+            <form action="{{url_for('addcart_clinic')}}" method="post">
+                <input type="hidden" name="product_id" value="{{product.id}}">
+                <button type="submit" class="btn btn-sm btn-warning">Add cart</button>
+                <label for="">Quantity:</label>
+                <input type="number" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
+            </form>
+        </div>
+        <div class="col-md-6"></div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

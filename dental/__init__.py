@@ -11,3 +11,4 @@ bcrypt = Bcrypt(app)
 
 from dental.user import routes
 from dental.products import routes
+from dental.carts import carts
